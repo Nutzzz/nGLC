@@ -6,7 +6,6 @@ namespace GLC
         
         public GLCView() {
             InitializeComponent();
-            //button1.Clicked += () => MessageBox.Query("Hello", "Hello There!", "Ok");
         }
     }
 }

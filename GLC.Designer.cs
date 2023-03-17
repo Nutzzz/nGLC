@@ -142,6 +142,7 @@ namespace GLC
             gameTableView.Style.ShowHorizontalScrollIndicators = false;
             gameTableView.MaxCellWidth = 25;
             gameTableView.TabIndex = 1;
+            gameTableView.SelectedCellChanged += (e) => UpdateInfo(e.NewRow);
 
             //gameView.Add(gameTableView);
 
@@ -170,7 +171,6 @@ namespace GLC
             */
             gameView.Add(gameTableView);
             this.Add(gameView);
-            gameTableView.FocusFirst();
 
             // INFO PANEL
 
@@ -182,7 +182,6 @@ namespace GLC
             //infoView.TabIndex = 2;     // } Allow focus to the border to allow user to get an expanded info window
             //infoView.CanFocus = true;  // } (or maybe just use a hotkey instead?)
             infoView.Border = new();
-            infoView.Border.Title = "Pong";
             infoView.Border.BorderStyle = BorderStyle.Rounded;
             infoView.Border.BorderBrush = this.ColorScheme.Disabled.Foreground;
             infoView.Border.Background = this.ColorScheme.Disabled.Background;
@@ -216,6 +215,10 @@ namespace GLC
             statusBar.Y = Pos.AnchorEnd(1);
 
             this.Add(statusBar);
+
+            // Set default to Pong
+            gameTableView.SelectedRow = 14;
+            gameTableView.FocusFirst();
         }
 
         private void Setup()
@@ -392,12 +395,12 @@ namespace GLC
                 new string[] { "Pipe Dream", "*", "", "5*", "MAME", "age7", "date7", "dev7", "ratg7", "genr7", "tag7", "ali7" },
                 new string[] { "Pit Fighter", "", "", "3*", "MAME", "age8", "date8", "dev8", "ratg8", "genr8", "tag8", "ali8" },
                 new string[] { "Pitfall II", "", "", "3*", "MAME", "age9", "date9", "dev9", "ratg9", "genr9", "tag9", "ali9" },
-                new string[] { "Play Girls", "", "~", "3*", "MAME" },
-                new string[] { "Play Girls 2", "", "~", "3*", "MAME" },
-                new string[] { "Pole Position", "", "", "3*", "MAME" },
-                new string[] { "Pole Position II", "", "", "3*", "MAME" },
-                new string[] { "Pong", "", "", "3*", "MAME" },
-                new string[] { "Popeye", "*", "", "4*", "MAME" },
+                new string[] { "Play Girls", "", "~", "3*", "MAME", "age10", "date10", "dev10", "ratg10", "genr10", "tag10", "ali10" },
+                new string[] { "Play Girls 2", "", "~", "3*", "MAME", "age11", "date11", "dev11", "ratg11", "genr11", "tag11", "ali11" },
+                new string[] { "Pole Position", "", "", "3*", "MAME", "age12", "date12", "dev12", "ratg12", "genr12", "tag12", "ali12" },
+                new string[] { "Pole Position II", "", "", "3*", "MAME", "age13", "date13", "dev13", "ratg13", "genr13", "tag13", "ali13" },
+                new string[] { "Pong", "", "", "3*", "MAME", "E", "1972-11-29", "Al Alcorn", "7.6", "family, sport", "arcade", "pong" },
+                new string[] { "Popeye", "*", "", "4*", "MAME", "age15", "date15", "dev15", "ratg15", "genr15", "tag15", "ali15" },
                 new string[] { "Punch-Out!!", "*", "", "4*", "MAME" },
                 new string[] { "Punisher", "", "", "3*", "MAME" },
                 new string[] { "Puyo Puyo", "*", "", "5*", "MAME" },
@@ -455,6 +458,53 @@ namespace GLC
                 hidTreeNode,
             });
             platformTreeView.SelectedObject = searchTreeNode;
+        }
+
+        public void UpdateInfo(int newRow)
+        {
+            if (gameTableViewTableData[newRow] is not null &&
+                gameTableViewTableData[newRow].Length > 0)
+            {
+                //view.infoView.Border.Title = view.gameTableViewTable.Rows[newRow].ItemArray[0].ToString() ?? "null";
+                infoView.Border.Title = gameTableViewTableData[newRow][0] ?? "null";
+                DataTable newInfoTable = new();
+                newInfoTable = new("Game Information");
+                newInfoTable.Columns.AddRange(new DataColumn[] {
+                new("item"),
+                new("value")
+            });
+
+                newInfoTable.Rows.Add("", "");
+                if (gameTableViewTableData[newRow].Length < 12)
+                {
+                    if (gameTableViewTableData[newRow].Length < 5)
+                        newInfoTable.Rows.Add(" platform:", "");
+                    else
+                        newInfoTable.Rows.Add(" platform:", gameTableViewTableData[newRow][4] ?? "null");
+
+                    newInfoTable.Rows.Add("      age:", "");
+                    newInfoTable.Rows.Add("  release:", "");
+                    newInfoTable.Rows.Add("developer:", "");
+                    newInfoTable.Rows.Add("  ratings:", "");
+                    newInfoTable.Rows.Add("   genres:", "");
+                    newInfoTable.Rows.Add("     tags:", "");
+                    newInfoTable.Rows.Add("    alias:", "");
+                }
+                else
+                {
+                    newInfoTable.Rows.Add(" platform:", gameTableViewTableData[newRow][4] ?? "null");
+                    newInfoTable.Rows.Add("      age:", gameTableViewTableData[newRow][5] ?? "null");
+                    newInfoTable.Rows.Add("  release:", gameTableViewTableData[newRow][6] ?? "null");
+                    newInfoTable.Rows.Add("developer:", gameTableViewTableData[newRow][7] ?? "null");
+                    newInfoTable.Rows.Add("  ratings:", gameTableViewTableData[newRow][8] ?? "null");
+                    newInfoTable.Rows.Add("   genres:", gameTableViewTableData[newRow][9] ?? "null");
+                    newInfoTable.Rows.Add("     tags:", gameTableViewTableData[newRow][10] ?? "null");
+                    newInfoTable.Rows.Add("    alias:", gameTableViewTableData[newRow][11] ?? "null");
+                }
+                infoTableView.Table = newInfoTable;
+                infoTableView.ChangeSelectionToEndOfTable(false);
+                infoTableView.SelectedRow = -1;
+            }
         }
     }
 }
