@@ -21,6 +21,7 @@ namespace GLC
         public TableView infoTableView;
         public View infoView;
 
+        public int defaultGame = 0;
         public List<string[]> gameTableViewTableData;
         public DataTable gameTableViewTable;
         public TableView gameTableView;
@@ -112,10 +113,6 @@ namespace GLC
             //platformScrollBarView.ShowHorizontalScrollIndicator = false;
             //platformScrollBarView.ShowVerticalScrollIndicator = true;
 
-            //platformTreeView.SelectedObject = searchTreeNode;
-            platformTreeView.ExpandAll();
-            platformTreeView.SelectedObject = mameTreeNode;
-
             // GAMES
 
             // View gameView
@@ -202,10 +199,6 @@ namespace GLC
             infoView.Add(infoTableView);
             this.Add(infoView);
 
-            // this is a hack to hide the header row (along with a blank initial row)
-            infoTableView.ChangeSelectionToEndOfTable(false);
-            infoTableView.SelectedRow = -1;
-
             // STATUS BAR
 
             // StatusBar statusBar
@@ -216,9 +209,23 @@ namespace GLC
 
             this.Add(statusBar);
 
-            // Set default to Pong
-            gameTableView.SelectedRow = 14;
+            platformTreeView.ExpandAll();
+            //platformTreeView.SelectedObject = searchTreeNode;
+            platformTreeView.GetCurrentHeight(out int pTVH);
+            platformTreeView.SelectedObject = mameTreeNode;  // Set default to MAME
+            int.TryParse(platformTreeView.SelectedObject.Tag.ToString(), out int i);
+            if (pTVH < i)
+                platformTreeView.EnsureVisible(platformsTreeNode);
+
+            gameTableView.SelectedRow = defaultGame;  // Set default to Pong
+            gameTableView.GetCurrentHeight(out int gTVH);
+            if (gTVH < defaultGame)
+                gameTableView.EnsureSelectedCellIsVisible();
             gameTableView.FocusFirst();
+
+            // this is a hack to hide the header row (along with a blank initial row)
+            infoTableView.ChangeSelectionToEndOfTable(false);
+            infoTableView.SelectedRow = -1;
         }
 
         private void Setup()
@@ -342,18 +349,26 @@ namespace GLC
             //infoTableViewTable.Rows.Add("", "");
 
             searchTreeNode = new("Search results [0]");
+            searchTreeNode.Tag = 0;
             newTreeNode = new("New [629]");
+            newTreeNode.Tag = 1;
             faveTreeNode = new("Favorites [7]");
+            faveTreeNode.Tag = 2;
             instTreeNode = new("Installed [175]");
+            instTreeNode.Tag = 3;
             allTreeNode = new("All [629]");
+            allTreeNode.Tag = 4;
             tagsTreeNode = new("Tags");
+            tagsTreeNode.Tag = 5;
             tagsTreeNode.Children = new TreeNode[]
             {
                 new TreeNode("kids [20]"),
                 new TreeNode("emulators [5]"),
             };
-            mameTreeNode = new("MAME [49]");
             platformsTreeNode = new("Platforms");
+            platformsTreeNode.Tag = 8;
+            mameTreeNode = new("MAME [49]");
+            mameTreeNode.Tag = 22;
             platformsTreeNode.Children = new TreeNode[]
             {
                 new TreeNode("Custom [10]"),
@@ -380,9 +395,12 @@ namespace GLC
                 new TreeNode("Wargaming.net [0]"),
             };
             notInstTreeNode = new("Not installed [454]");
+            notInstTreeNode.Tag = 31;
             hidTreeNode = new("Hidden [2]");
+            hidTreeNode.Tag = 32;
             CreatePlatformTree();
 
+            defaultGame = 14;
             gameTableViewTableData = new()
             {
                 new string[] { "P.O.W. - Prisoners of War", "", "", "3*", "MAME", "age0", "date0", "dev0", "ratg0", "genr0", "tag0", "ali0" },
@@ -401,7 +419,7 @@ namespace GLC
                 new string[] { "Pole Position II", "", "", "3*", "MAME", "age13", "date13", "dev13", "ratg13", "genr13", "tag13", "ali13" },
                 new string[] { "Pong", "", "", "3*", "MAME", "E", "1972-11-29", "Al Alcorn", "7.6", "family, sport", "arcade", "pong" },
                 new string[] { "Popeye", "*", "", "4*", "MAME", "age15", "date15", "dev15", "ratg15", "genr15", "tag15", "ali15" },
-                new string[] { "Punch-Out!!", "*", "", "4*", "MAME" },
+                new string[] { "Punch-Out!!", "*", "", "4*", "MAME", "age16", "date16", "dev16", "ratg16", "genr16", "tag16", "ali16" },
                 new string[] { "Punisher", "", "", "3*", "MAME" },
                 new string[] { "Puyo Puyo", "*", "", "5*", "MAME" },
                 new string[] { "Puyo Puyo 2", "", "", "4*", "MAME" },
