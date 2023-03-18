@@ -209,8 +209,6 @@ namespace GLC
 
             this.Add(statusBar);
 
-            platformTreeView.ExpandAll();
-            //platformTreeView.SelectedObject = searchTreeNode;
             platformTreeView.GetCurrentHeight(out int pTVH);
             platformTreeView.SelectedObject = mameTreeNode;  // Set default to MAME
             int.TryParse(platformTreeView.SelectedObject.Tag.ToString(), out int i);
@@ -234,14 +232,14 @@ namespace GLC
             colorDark.Normal = new Attribute(Color.Gray, Color.Black);
             colorDark.HotNormal = new Attribute(Color.BrightRed, Color.Black);
             colorDark.Focus = new Attribute(Color.Black, Color.Gray);
-            colorDark.HotFocus = new Attribute(Color.Red, Color.Gray);
+            colorDark.HotFocus = colorDark.Focus; //new Attribute(Color.Red, Color.Gray);
             colorDark.Disabled = new Attribute(Color.DarkGray, Color.Black);
 
             colorLight = new();
             colorLight.Normal = new Attribute(Color.Gray, Color.Blue);
             colorLight.HotNormal = new Attribute(Color.White, Color.Cyan);
             colorLight.Focus = new Attribute(Color.Black, Color.Gray);
-            colorLight.HotFocus = new Attribute(Color.White, Color.Black);
+            colorLight.HotFocus = colorLight.Focus; //new Attribute(Color.White, Color.Black);
             colorLight.Disabled = new Attribute(Color.DarkGray, Color.Blue);
 
             statusItems = new StatusItem[]
@@ -330,9 +328,14 @@ namespace GLC
             infoTableView.Clear();
             searchTreeNode = new("Search results [" + results.Count + "]");
             CreatePlatformTree();
-            if (gameTableViewTable.Rows.Count > 0)
+            if (results.Count > 0)
+            {
                 gameTableView.SelectedRow = 0;
-            gameTableView.FocusFirst();
+                gameTableView.EnsureSelectedCellIsVisible();
+                gameTableView.FocusFirst();
+            }
+            else
+                platformTreeView.FocusFirst();
         }
 
         private void PopulateDefaults()
@@ -475,7 +478,9 @@ namespace GLC
                 notInstTreeNode,
                 hidTreeNode,
             });
+            platformTreeView.ExpandAll();
             platformTreeView.SelectedObject = searchTreeNode;
+            platformTreeView.EnsureVisible(searchTreeNode);
         }
 
         public void UpdateInfo(int newRow)
