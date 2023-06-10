@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nGLC", "nGLC.csproj", "{F78CE7C2-987B-48FF-89BD-89C38A988E88}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2AA216F9-8F36-445E-87B3-03AF3156FC70} = {2AA216F9-8F36-445E-87B3-03AF3156FC70}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Terminal.Gui", "..\Terminal.Gui\Terminal.Gui\Terminal.Gui.csproj", "{2AA216F9-8F36-445E-87B3-03AF3156FC70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{F78CE7C2-987B-48FF-89BD-89C38A988E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F78CE7C2-987B-48FF-89BD-89C38A988E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F78CE7C2-987B-48FF-89BD-89C38A988E88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AA216F9-8F36-445E-87B3-03AF3156FC70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AA216F9-8F36-445E-87B3-03AF3156FC70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AA216F9-8F36-445E-87B3-03AF3156FC70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AA216F9-8F36-445E-87B3-03AF3156FC70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
