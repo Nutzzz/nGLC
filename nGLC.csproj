@@ -7,7 +7,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Terminal.Gui\Terminal.Gui\Terminal.Gui.csproj" />
+    <PackageReference Include="Terminal.Gui" Version="2.0.0-tags-v2-0-0-alpha-22" />
   </ItemGroup>
-
 </Project>

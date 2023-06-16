@@ -8,8 +8,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nGLC", "nGLC.csproj", "{F78
 		{2AA216F9-8F36-445E-87B3-03AF3156FC70} = {2AA216F9-8F36-445E-87B3-03AF3156FC70}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Terminal.Gui", "..\Terminal.Gui\Terminal.Gui\Terminal.Gui.csproj", "{2AA216F9-8F36-445E-87B3-03AF3156FC70}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
